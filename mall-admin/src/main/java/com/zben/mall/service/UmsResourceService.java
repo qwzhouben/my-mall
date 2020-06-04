@@ -16,4 +16,37 @@ public interface UmsResourceService {
      * @return
      */
     List<UmsResource> listAll();
+
+    /**
+     * 分页模糊查询后台资源
+     * @param categoryId
+     * @param nameKeyword
+     * @param urlKeyword
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
+    List<UmsResource> list(Long categoryId, String nameKeyword, String urlKeyword, Integer pageSize, Integer pageNum);
+
+    /**
+     * 添加后台资源
+     * @param umsResource
+     * @return
+     */
+    boolean create(UmsResource umsResource);
+
+    /**
+     * 修改后台资源
+     * @param id
+     * @param umsResource
+     * @return
+     */
+    boolean update(Long id, UmsResource umsResource);
+
+    /**
+     * 根据ID删除后台资源
+     * @param id
+     * @return
+     */
+    boolean delete(Long id);
 }

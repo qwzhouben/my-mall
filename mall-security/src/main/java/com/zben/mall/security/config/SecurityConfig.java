@@ -54,6 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(restAuthenticationEntryPoint())
                 //自定义权限拦截器JWT过滤器
                 .and()
+                .formLogin().failureHandler(customAuthenticationFailureHandler())
+                .and()
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         //有动态权限配置时添加动态权限校验过滤器
         if (dynamicSecurityService != null) {
@@ -113,5 +115,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public JwtTokenUtil jwtTokenUtil() {
         return new JwtTokenUtil();
+    }
+
+    @Bean
+    public CustomAuthenticationFailureHandler customAuthenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
     }
 }

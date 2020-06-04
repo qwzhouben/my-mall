@@ -3,7 +3,9 @@ package com.zben.mall.controller;
 import com.zben.mall.common.api.CommonPage;
 import com.zben.mall.common.api.CommonResult;
 import com.zben.mall.dto.UmsAdminLoginParam;
+import com.zben.mall.dto.UmsAdminParam;
 import com.zben.mall.model.UmsAdmin;
+import com.zben.mall.model.UmsRole;
 import com.zben.mall.service.UmsAdminService;
 import com.zben.mall.service.UmsRoleService;
 import io.swagger.annotations.Api;
@@ -11,6 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -36,6 +40,19 @@ public class UmsAdminController {
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
+
+    @ApiOperation(value = "用户注册")
+    @PostMapping("/register")
+    public CommonResult<UmsAdmin> register(@RequestBody @Validated UmsAdminParam param, BindingResult result) {
+        if (result.hasErrors()) {
+            return CommonResult.failed(result.getFieldError().getDefaultMessage());
+        }
+        UmsAdmin umsAdmin = adminService.register(param);
+        if (umsAdmin == null) {
+            return CommonResult.failed();
+        }
+        return CommonResult.success(umsAdmin);
+    }
 
     @ApiOperation(value = "登录以后返回token")
     @PostMapping("/login")
@@ -81,6 +98,42 @@ public class UmsAdminController {
         List<UmsAdmin> adminList = adminService.list(keyword, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(adminList));
     }
+
+    @ApiOperation(value = "修改指定用户信息")
+    @PostMapping("/update/{id}")
+    public CommonResult update(@PathVariable Long id, @RequestBody @Validated UmsAdmin umsAdmin, BindingResult bindingResult) {
+        if (adminService.update(id, umsAdmin)) {
+            return CommonResult.success();
+        }
+        return CommonResult.failed();
+    }
+
+    @ApiOperation(value = "删除指定用户信息")
+    @PostMapping("/delete/{id}")
+    public CommonResult delete(@PathVariable Long id) {
+        if (adminService.delete(id)) {
+            return CommonResult.success();
+        }
+        return CommonResult.failed();
+    }
+
+    @ApiOperation("获取指定用户角色")
+    @GetMapping("/role/{adminId}")
+    public CommonResult<List<UmsRole>> getRoleList(@PathVariable Long adminId) {
+        List<UmsRole> roleList = adminService.getRoleList(adminId);
+        return CommonResult.success(roleList);
+    }
+
+    @ApiOperation("给用户分配角色")
+    @PostMapping("/role/update")
+    public CommonResult updateRole(@RequestParam("adminId") Long adminId,
+                                   @RequestParam("roleIds") List<Long> roleIds) {
+        if (adminService.updateRole(adminId, roleIds)) {
+            return CommonResult.success();
+        }
+        return CommonResult.failed();
+    }
+
 }
 
 

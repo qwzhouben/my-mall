@@ -1,7 +1,9 @@
 package com.zben.mall.service;
 
+import com.zben.mall.dto.UmsAdminParam;
 import com.zben.mall.model.UmsAdmin;
 import com.zben.mall.model.UmsResource;
+import com.zben.mall.model.UmsRole;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
@@ -50,4 +52,41 @@ public interface UmsAdminService {
      * @return
      */
     List<UmsAdmin> list(String keyword, Integer pageSize, Integer pageNum);
+
+    /**
+     * 用户注册
+     * @param param
+     * @return
+     */
+    UmsAdmin register(UmsAdminParam param);
+
+    /**
+     * 修改指定用户信息
+     * @param id
+     * @param umsAdmin
+     * @return
+     */
+    boolean update(Long id, UmsAdmin umsAdmin);
+
+    /**
+     * 删除指定用户恓
+     * @param id
+     * @return
+     */
+    boolean delete(Long id);
+
+    /**
+     * 获取指定用户的角色
+     * @param adminId
+     * @return
+     */
+    List<UmsRole> getRoleList(Long adminId);
+
+    /**
+     * 给用户分配角色
+     * @param adminId
+     * @param roleIds
+     * @return
+     */
+    boolean updateRole(Long adminId, List<Long> roleIds);
 }

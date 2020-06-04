@@ -3,6 +3,8 @@ package com.zben.mall.model;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,9 +14,11 @@ import java.util.Date;
 @Data
 public class UmsRole implements Serializable {
 
+    @Id
     private Long id;
 
     @ApiModelProperty(value = "名称")
+    @NotBlank(message = "名称不能为空")
     private String name;
 
     @ApiModelProperty(value = "描述")

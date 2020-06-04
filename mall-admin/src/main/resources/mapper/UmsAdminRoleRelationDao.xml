@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zben.mall.mapper.UmsAdminRoleRelationMapper">
 
+    <insert id="batchInsert">
+      INSERT INTO ums_role_menu_relation(`role_id`, `menu_id`)
+      VALUES
+      <foreach collection="menuIds" item="menuId" index="index" separator=",">
+          (#{roleId}, #{menuId})
+      </foreach>
+    </insert>
+
+    <insert id="batchInsertRoleAndResource">
+        INSERT INTO ums_role_resource_relation(`role_id`, `resource_id`)
+        VALUES
+        <foreach collection="resourceIds" item="resourceId" index="index" separator=",">
+            (#{roleId}, #{resourceId})
+        </foreach>
+    </insert>
+
     <select id="getResourceList" resultType="com.zben.mall.model.UmsResource">
         SELECT
             ur.id id,
@@ -44,5 +60,22 @@
         GROUP BY
             m.id
     </select>
+
+    <select id="getRoleList" resultType="com.zben.mall.model.UmsRole">
+        select r.*
+        from ums_admin_role_relation ar left join ums_role r on ar.role_id = r.id
+        where ar.admin_id = #{adminId}
+    </select>
+
+
+    <delete id="deleteByAdminId">
+      DELETE FROM ums_admin_role_relation
+      WHERE admin_id = #{adminId}
+    </delete>
+
+    <delete id="deleteByRoleId">
+        DELETE FROM ums_admin_role_relation
+        WHERE role_id = #{roleId}
+    </delete>
 
 </mapper>

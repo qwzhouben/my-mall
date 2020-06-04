@@ -20,6 +20,18 @@ public class CommonResult<T> {
 
     private T data;
 
+    public CommonResult(Long code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
+    /**
+     * 成功返回结果
+     */
+    public static <T> CommonResult<T> success() {
+        return new CommonResult<T>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
+    }
+
     /**
      * 成功返回结果
      *

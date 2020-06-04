@@ -3,6 +3,7 @@ package com.zben.mall.model;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 @Data
 public class UmsMenu implements Serializable {
 
+    @Id
     private Long id;
 
     @ApiModelProperty(value = "父级ID")
