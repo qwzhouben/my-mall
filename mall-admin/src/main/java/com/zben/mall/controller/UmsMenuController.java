@@ -4,7 +4,6 @@ import com.zben.mall.common.api.CommonPage;
 import com.zben.mall.common.api.CommonResult;
 import com.zben.mall.model.UmsMenu;
 import com.zben.mall.model.UmsMenuNode;
-import com.zben.mall.model.UmsResource;
 import com.zben.mall.service.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

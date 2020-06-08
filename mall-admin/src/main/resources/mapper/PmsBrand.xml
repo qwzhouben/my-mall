@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zben.mall.mapper.pms.PmsBrandMapper">
+
+    <update id="updateShowStatus">
+        UPDATE pms_brand
+        SET show_status=#{showStatus}
+        where id in
+        <foreach collection="ids" item="id" index="index" separator=","  open="(" close=")">
+          #{id}
+        </foreach>
+    </update>
+
+    <update id="updateFactoryStatus">
+        UPDATE pms_brand
+        SET factory_status=#{factoryStatus}
+        where id in
+        <foreach collection="ids" item="id" index="index" separator=","  open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>
